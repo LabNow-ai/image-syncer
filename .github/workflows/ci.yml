@@ -37,7 +37,7 @@ jobs:
           VER=$(date +%Y.%m%d.%H%M)${TAG_SUFFIX}
           docker build --compress --force-rm=true \
             -t "${IMG_PREFIX_DST}/image-syncer:${VER}" \
-            -f Dockerfile \
+            -f src/image-syncer.Dockerfile \
             --build-arg "BASE_NAMESPACE=${IMG_PREFIX_SRC}" .
           push_image image-syncer
 

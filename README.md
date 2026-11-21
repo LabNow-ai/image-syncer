@@ -10,7 +10,7 @@
 
 `image-syncer` is a docker registry tools. With `image-syncer` you can synchronize docker images from some source registries to target registries, which include most popular public docker registry services.
 
-English | [简体中文](./README-zh_CN.md)
+English | [简体中文](./doc/README-zh_CN.md)
 
 ## Features
 
@@ -39,7 +39,7 @@ git clone https://github.com/LabNow-ai/image-syncer.git
 cd image-syncer
 
 # This will create a binary file named image-syncer in the repository root
-make
+make -C src
 ```
 
 ### Example
@@ -55,7 +55,7 @@ make
 
 Image-syncer supports `--auth` and `--images` flag for passing authentication file and image sync configuration file, both of which supports YAML and JSON format. Seperate authentication information is more flexible to reuse it in different sync missions.
 
-> The older version (< v1.2.0) of configuration file is still supported via `--config` flag, you can find the example in [config.yaml](examples/config.yaml) and [config.json](examples/config.json).
+> The older version (< v1.2.0) of configuration file is still supported via `--config` flag.
 
 #### Authentication file
 
@@ -138,7 +138,7 @@ quay.io/coreos/kube-rbac-proxy:/a+/: quay.io/ruohe/kube-rbac-proxy
 
 ### FAQs
 
-Frequently asked questions are listed in [FAQs](./FAQs.md)
+Frequently asked questions are listed in [FAQ](./doc/FAQ.md)
 
 ## Star History
 
