@@ -39,6 +39,6 @@ release:
   github:
     owner: LabNow-ai
     name: image-syncer
-  draft: true
+  draft: false
   prerelease: auto
   name_template: "{{.ProjectName}}-v{{.Version}}"
