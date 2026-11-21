@@ -1,12 +1,12 @@
 # image-syncer
 
-![workflow check](https://github.com/AliyunContainerService/image-syncer/actions/workflows/check.yml/badge.svg)
-![workflow build](https://github.com/AliyunContainerService/image-syncer/actions/workflows/synctest.yml/badge.svg)
-[![Version](https://img.shields.io/github/v/release/AliyunContainerService/image-syncer)](https://github.com/AliyunContainerService/image-syncer/releases)
+> **Fork 声明：** 本项目 fork 自 [AliyunContainerService/image-syncer](https://github.com/AliyunContainerService/image-syncer)，并在此基础上维护 LabNow 相关修复和仓库组织方式，感谢原项目及贡献者。
+
+![workflow build](https://github.com/LabNow-ai/image-syncer/actions/workflows/ci.yml/badge.svg)
+[![Version](https://img.shields.io/github/v/release/LabNow-ai/image-syncer)](https://github.com/LabNow-ai/image-syncer/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/AliyunContainerService/image-syncer)](https://goreportcard.com/report/github.com/AliyunContainerService/image-syncer)
-[![Github All Releases](https://img.shields.io/github/downloads/AliyunContainerService/image-syncer/total.svg)](https://api.github.com/repos/AliyunContainerService/image-syncer/releases)
-[![codecov](https://codecov.io/gh/AliyunContainerService/image-syncer/graph/badge.svg)](https://codecov.io/gh/AliyunContainerService/image-syncer)
-[![License](https://img.shields.io/github/license/AliyunContainerService/image-syncer)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![Github All Releases](https://img.shields.io/github/downloads/LabNow-ai/image-syncer/total.svg)](https://api.github.com/repos/LabNow-ai/image-syncer/releases)
+[![License](https://img.shields.io/github/license/LabNow-ai/image-syncer)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 `image-syncer` 是一个容器镜像同步工具，可用来进行多对多的镜像仓库同步，支持目前绝大多数主流的 docker 镜像仓库服务
 
@@ -35,10 +35,10 @@
 ### 手动编译
 
 ```bash
-go get github.com/AliyunContainerService/image-syncer
-cd $GOPATH/github.com/AliyunContainerService/image-syncer
+git clone https://github.com/LabNow-ai/image-syncer.git
+cd image-syncer
 
-# This will create a binary file named image-syncer
+# This will create a binary file named image-syncer in the repository root
 make
 ```
 

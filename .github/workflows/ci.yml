@@ -1,0 +1,58 @@
+name: Build Go
+
+on:
+  push:
+    branches: [main, "dev/*"]
+    tags: ["v*"]
+  pull_request:
+    branches: [main, "dev/*"]
+    paths-ignore: ["*.md"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  BUILDKIT_PROGRESS: plain
+  REGISTRY_SRC: ${{ vars.REGISTRY_SRC || 'docker.io' }}
+  REGISTRY_DST: ${{ vars.REGISTRY_DST || 'quay.io' }}
+  DOCKER_REGISTRY_USERNAME: ${{ vars.DOCKER_REGISTRY_USERNAME }}
+  DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+  CI_PROJECT_NAME: ${{ vars.CI_PROJECT_NAME || 'LabNow-ai/image-syncer' }}
+  COMMIT_SHA: ${{ github.sha }}
+
+jobs:
+  build_docker_image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build Docker image
+        run: |
+          set -eux
+          source ./tool.sh
+          VER=$(date +%Y.%m%d.%H%M)${TAG_SUFFIX}
+          docker build --compress --force-rm=true \
+            -t "${IMG_PREFIX_DST}/image-syncer:${VER}" \
+            -f Dockerfile \
+            --build-arg "BASE_NAMESPACE=${IMG_PREFIX_SRC}" .
+          push_image image-syncer
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.22"
+          cache-dependency-path: src/image-syncer/go.sum
+      - name: Test
+        run: |
+          set -eux
+          cd src/image-syncer
+          go mod tidy
+          go test ./...
+          go build -v -o ../../image-syncer .
