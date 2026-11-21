@@ -17,12 +17,12 @@ permissions:
   contents: read
 
 env:
-  BUILDKIT_PROGRESS: plain
+  TZ: Asia/Shanghai
+  CI_PROJECT_NAME: ${{ vars.CI_PROJECT_NAME || 'LabNow/image-syncer' }}
   REGISTRY_SRC: ${{ vars.REGISTRY_SRC || 'docker.io' }}
   REGISTRY_DST: ${{ vars.REGISTRY_DST || 'quay.io' }}
   DOCKER_REGISTRY_USERNAME: ${{ vars.DOCKER_REGISTRY_USERNAME }}
   DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-  CI_PROJECT_NAME: ${{ vars.CI_PROJECT_NAME || 'LabNow-ai/image-syncer' }}
   COMMIT_SHA: ${{ github.sha }}
 
 jobs:
@@ -35,6 +35,7 @@ jobs:
           set -eux
           source ./tool.sh
           VER=$(date +%Y.%m%d.%H%M)${TAG_SUFFIX}
+          BUILDKIT_PROGRESS=plain \
           docker build --compress --force-rm=true \
             -t "${IMG_PREFIX_DST}/image-syncer:${VER}" \
             -f src/image-syncer.Dockerfile \
