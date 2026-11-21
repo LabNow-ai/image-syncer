@@ -5,7 +5,28 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "gomod"
-    directory: "/src/image-syncer"
+      day: "sunday"
+    groups:
+      all-github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "docker"
+    directory: "/src"
     schedule:
       interval: "weekly"
+      day: "sunday"
+    groups:
+      all-docker:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "go-mod"
+    directory: "/src"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    groups:
+      all-go-mod:
+        patterns:
+          - "*"
