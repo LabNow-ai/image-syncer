@@ -1,16 +1,16 @@
 # image-syncer
 
-![workflow check](https://github.com/AliyunContainerService/image-syncer/actions/workflows/check.yml/badge.svg)
-![workflow build](https://github.com/AliyunContainerService/image-syncer/actions/workflows/synctest.yml/badge.svg)
-[![Version](https://img.shields.io/github/v/release/AliyunContainerService/image-syncer)](https://github.com/AliyunContainerService/image-syncer/releases)
+> **Fork notice:** This project is a fork of [AliyunContainerService/image-syncer](https://github.com/AliyunContainerService/image-syncer), maintained with LabNow-specific fixes and repository organization. Original project and contributions are credited below.
+
+![workflow build](https://github.com/LabNow-ai/image-syncer/actions/workflows/ci.yml/badge.svg)
+[![Version](https://img.shields.io/github/v/release/LabNow-ai/image-syncer)](https://github.com/LabNow-ai/image-syncer/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/AliyunContainerService/image-syncer)](https://goreportcard.com/report/github.com/AliyunContainerService/image-syncer)
-[![Github All Releases](https://img.shields.io/github/downloads/AliyunContainerService/image-syncer/total.svg)](https://api.github.com/repos/AliyunContainerService/image-syncer/releases)
-[![codecov](https://codecov.io/gh/AliyunContainerService/image-syncer/graph/badge.svg)](https://codecov.io/gh/AliyunContainerService/image-syncer)
-[![License](https://img.shields.io/github/license/AliyunContainerService/image-syncer)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![Github All Releases](https://img.shields.io/github/downloads/LabNow-ai/image-syncer/total.svg)](https://api.github.com/repos/LabNow-ai/image-syncer/releases)
+[![License](https://img.shields.io/github/license/LabNow-ai/image-syncer)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 `image-syncer` is a docker registry tools. With `image-syncer` you can synchronize docker images from some source registries to target registries, which include most popular public docker registry services.
 
-English | [简体中文](./README-zh_CN.md)
+English | [简体中文](./doc/README-zh_CN.md)
 
 ## Features
 
@@ -35,11 +35,11 @@ You can download the latest binary release [here](https://github.com/AliyunConta
 ### Compile Manually
 
 ```bash
-go get github.com/AliyunContainerService/image-syncer
-cd $GOPATH/github.com/AliyunContainerService/image-syncer
+git clone https://github.com/LabNow-ai/image-syncer.git
+cd image-syncer
 
-# This will create a binary file named image-syncer
-make
+# This will create a binary file named image-syncer in the repository root
+make -C src
 ```
 
 ### Example
@@ -55,7 +55,7 @@ make
 
 Image-syncer supports `--auth` and `--images` flag for passing authentication file and image sync configuration file, both of which supports YAML and JSON format. Seperate authentication information is more flexible to reuse it in different sync missions.
 
-> The older version (< v1.2.0) of configuration file is still supported via `--config` flag, you can find the example in [config.yaml](examples/config.yaml) and [config.json](examples/config.json).
+> The older version (< v1.2.0) of configuration file is still supported via `--config` flag.
 
 #### Authentication file
 
@@ -138,8 +138,4 @@ quay.io/coreos/kube-rbac-proxy:/a+/: quay.io/ruohe/kube-rbac-proxy
 
 ### FAQs
 
-Frequently asked questions are listed in [FAQs](./FAQs.md)
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=AliyunContainerService/image-syncer&type=Date)](https://star-history.com/#AliyunContainerService/image-syncer)
+Frequently asked questions are listed in [FAQ](./doc/FAQ.md)

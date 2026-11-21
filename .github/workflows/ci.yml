@@ -1,0 +1,103 @@
+name: Build Go
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore: [ "*.md" ]
+  pull_request:
+    branches: [ "main" ]
+    paths-ignore: [ "*.md" ]
+  workflow_dispatch:  # Allows you to run this workflow manually from the Actions tab
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  TZ: Asia/Shanghai
+  CI_PROJECT_NAME: ${{ vars.CI_PROJECT_NAME || 'LabNow/image-syncer' }}
+  REGISTRY_SRC: ${{ vars.REGISTRY_SRC || 'docker.io' }}
+  REGISTRY_DST: ${{ vars.REGISTRY_DST || 'quay.io' }}
+  DOCKER_REGISTRY_USERNAME: ${{ vars.DOCKER_REGISTRY_USERNAME }}
+  DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+  COMMIT_SHA: ${{ github.sha }}
+
+jobs:
+  build_docker_image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build Docker image
+        run: |
+          set -eux
+          source ./tool.sh
+          VER=$(date +%Y.%m%d.%H%M)${TAG_SUFFIX}
+          BUILDKIT_PROGRESS=plain \
+          docker build --compress --force-rm=true \
+            -t "${IMG_PREFIX_DST}/image-syncer:${VER}" \
+            -f src/image-syncer.Dockerfile \
+            --build-arg "BASE_NAMESPACE=${IMG_PREFIX_SRC}" .
+          push_image image-syncer
+
+  build_binary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.22"
+          cache-dependency-path: src/image-syncer/go.sum
+      - name: Test and Build Binary
+        run: |
+          set -eux
+          mkdir -pv build
+          cd src/image-syncer
+          go mod tidy
+          go test -v ./...
+          go build -v -o ../../build/image-syncer .
+          cd ../../
+          ls -alh build
+          ./build/image-syncer --help >/dev/null
+
+  build_goreleaser:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "stable"
+          cache-dependency-path: src/image-syncer/go.sum
+
+      - name: Test and prepare release
+        run: |
+          set -eux
+          cd src/image-syncer
+          go mod tidy
+          go test -v ./...
+
+      - if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        run: echo "flags=--snapshot" >> $GITHUB_ENV
+
+      - if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        run: echo "flags=--skip=validate" >> $GITHUB_ENV
+
+      - uses: goreleaser/goreleaser-action@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --verbose --clean -f ../.goreleaser.yml ${{ env.flags }}
+          workdir: src/image-syncer
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: image-syncer-binaries
+          path: src/image-syncer/dist/
+          if-no-files-found: error
+          retention-days: 2

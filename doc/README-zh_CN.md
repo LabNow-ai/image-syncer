@@ -1,16 +1,16 @@
 # image-syncer
 
-![workflow check](https://github.com/AliyunContainerService/image-syncer/actions/workflows/check.yml/badge.svg)
-![workflow build](https://github.com/AliyunContainerService/image-syncer/actions/workflows/synctest.yml/badge.svg)
-[![Version](https://img.shields.io/github/v/release/AliyunContainerService/image-syncer)](https://github.com/AliyunContainerService/image-syncer/releases)
+> **Fork 声明：** 本项目 fork 自 [AliyunContainerService/image-syncer](https://github.com/AliyunContainerService/image-syncer)，并在此基础上维护 LabNow 相关修复和仓库组织方式，感谢原项目及贡献者。
+
+![workflow build](https://github.com/LabNow-ai/image-syncer/actions/workflows/ci.yml/badge.svg)
+[![Version](https://img.shields.io/github/v/release/LabNow-ai/image-syncer)](https://github.com/LabNow-ai/image-syncer/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/AliyunContainerService/image-syncer)](https://goreportcard.com/report/github.com/AliyunContainerService/image-syncer)
-[![Github All Releases](https://img.shields.io/github/downloads/AliyunContainerService/image-syncer/total.svg)](https://api.github.com/repos/AliyunContainerService/image-syncer/releases)
-[![codecov](https://codecov.io/gh/AliyunContainerService/image-syncer/graph/badge.svg)](https://codecov.io/gh/AliyunContainerService/image-syncer)
-[![License](https://img.shields.io/github/license/AliyunContainerService/image-syncer)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![Github All Releases](https://img.shields.io/github/downloads/LabNow-ai/image-syncer/total.svg)](https://api.github.com/repos/LabNow-ai/image-syncer/releases)
+[![License](https://img.shields.io/github/license/LabNow-ai/image-syncer)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 `image-syncer` 是一个容器镜像同步工具，可用来进行多对多的镜像仓库同步，支持目前绝大多数主流的 docker 镜像仓库服务
 
-[English](./README.md) | 简体中文
+[English](../README.md) | 简体中文
 
 ## Features
 
@@ -35,11 +35,11 @@
 ### 手动编译
 
 ```bash
-go get github.com/AliyunContainerService/image-syncer
-cd $GOPATH/github.com/AliyunContainerService/image-syncer
+git clone https://github.com/LabNow-ai/image-syncer.git
+cd image-syncer
 
-# This will create a binary file named image-syncer
-make
+# This will create a binary file named image-syncer in the repository root
+make -C src
 ```
 
 ### 命令用例
@@ -55,7 +55,7 @@ make
 
 为了提高配置的灵活性，image-syncer 支持通过 `--auth` 参数以文件的形式传入认证信息，同时通过 `--images` 参数以文件的形式传入镜像同步规则。两种配置文件都同时支持 YAML 和 JSON 两种格式，其中认证信息是可选的，镜像同步规则是必须的。通过两者分离的方式，可以做到认证信息的灵活复用
 
-> 1.2.0 版本之前主要使用的、通过 `--config` 参数以一个配置文件同时传入认证信息和镜像同步规则的格式也是兼容的，可以参考 [config.yaml](examples/config.yaml) 和 [config.json](examples/config.json)
+> 1.2.0 版本之前主要使用的、通过 `--config` 参数以一个配置文件同时传入认证信息和镜像同步规则的格式也是兼容的。
 
 #### 认证信息
 
@@ -63,7 +63,7 @@ make
 
 > 注意，通常镜像源仓库需要具有 pull 以及访问 tags 权限，镜像目标仓库需要拥有 push 以及创建仓库权限；如果对应仓库没有提供认证信息，则默认匿名访问
 
-认证信息文件通过 `--auth` 参数传入，具体文件样例可以参考 [auth.yaml](examples/auth.yaml) 和 [auth.json](examples/auth.json)，这里以 [auth.yaml](examples/auth.yaml) 为例：
+认证信息文件通过 `--auth` 参数传入，具体文件样例可以参考 [auth.yaml](../examples/auth.yaml) 和 [auth.json](../examples/auth.json)，这里以 [auth.yaml](../examples/auth.yaml) 为例：
 
 ```yaml
 quay.io: #支持 "registry" 和 "registry/namespace"（v1.0.3之后的版本） 的形式，image-syncer 会自动为镜像同步规则中的每个源/目标 url 查找认证信息，并且使用对应认证信息进行进行访问，如果匹配到了多个，用“最长匹配”的那个作为最终结果
@@ -95,7 +95,7 @@ quay.io/coreos:
 7. 目标镜像 url 可以包含多个 tag 或者 digest，数量必须与源镜像 url 中的 tag 数量相同，此时，同步后的镜像 tag 会被修改成目标镜像 url 中指定的镜像 tag（按照从左到右顺序对应）
 8. 支持同时指定多个目标镜像 url，此时 "目标镜像 url" 为数组的形式，数组的每个元素（字符串）都需要满足前面的规则
 
-镜像同步规则文件通过 `--images` 参数传入，具体文件样例可以参考 [images.yaml](examples/images.yaml) 和 [images.json](examples/images.json)，这里以 [images.yaml](examples/images.yaml) 为例。 示例如下：
+镜像同步规则文件通过 `--images` 参数传入，具体文件样例可以参考 [images.yaml](../examples/images.yaml) 和 [images.json](../examples/images.json)，这里以 [images.yaml](../examples/images.yaml) 为例。 示例如下：
 
 ```yaml
 quay.io/coreos/kube-rbac-proxy: quay.io/ruohe/kube-rbac-proxy
@@ -137,8 +137,4 @@ quay.io/coreos/kube-rbac-proxy:/a+/: quay.io/ruohe/kube-rbac-proxy
 
 ### FAQs
 
-同步中常见的问题汇总在[FAQs 文档](./FAQs.md)中
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=AliyunContainerService/image-syncer&type=Date)](https://star-history.com/#AliyunContainerService/image-syncer)
+同步中常见的问题汇总在 [FAQ 文档](./FAQ.md) 中

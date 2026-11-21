@@ -1,0 +1,44 @@
+project_name: image-syncer
+
+env:
+  - GO111MODULE=on
+
+before:
+  hooks:
+    - go mod tidy -e
+
+builds:
+  - id: image-syncer
+    binary: image-syncer
+    main: .
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - "-s -w"
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: archive
+    builds: [image-syncer]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format: tar.gz
+    wrap_in_directory: false
+    files:
+      - none*
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+release:
+  github:
+    owner: LabNow-ai
+    name: image-syncer
+  draft: false
+  prerelease: auto
+  name_template: "{{.ProjectName}}-v{{.Version}}"
