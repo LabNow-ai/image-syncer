@@ -4,7 +4,7 @@
 
 ![workflow build](https://github.com/LabNow-ai/image-syncer/actions/workflows/ci.yml/badge.svg)
 [![Version](https://img.shields.io/github/v/release/LabNow-ai/image-syncer)](https://github.com/LabNow-ai/image-syncer/releases)
-[![Go Report Card](https://goreportcard.com/badge/github.com/AliyunContainerService/image-syncer)](https://goreportcard.com/report/github.com/AliyunContainerService/image-syncer)
+[![Go Report Card](https://goreportcard.com/badge/github.com/LabNow-ai/image-syncer)](https://goreportcard.com/report/github.com/LabNow-ai/image-syncer)
 [![Github All Releases](https://img.shields.io/github/downloads/LabNow-ai/image-syncer/total.svg)](https://api.github.com/repos/LabNow-ai/image-syncer/releases)
 [![License](https://img.shields.io/github/license/LabNow-ai/image-syncer)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
@@ -30,7 +30,7 @@
 
 ### 下载和安装
 
-在 [releases](https://github.com/AliyunContainerService/image-syncer/releases) 页面可下载源码以及二进制文件
+在 [releases](https://github.com/LabNow-ai/image-syncer/releases) 页面可下载源码以及二进制文件
 
 ### 手动编译
 
