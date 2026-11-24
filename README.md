@@ -4,7 +4,6 @@
 
 ![workflow build](https://github.com/LabNow-ai/image-syncer/actions/workflows/ci.yml/badge.svg)
 [![Version](https://img.shields.io/github/v/release/LabNow-ai/image-syncer)](https://github.com/LabNow-ai/image-syncer/releases)
-[![Go Report Card](https://goreportcard.com/badge/github.com/AliyunContainerService/image-syncer)](https://goreportcard.com/report/github.com/AliyunContainerService/image-syncer)
 [![Github All Releases](https://img.shields.io/github/downloads/LabNow-ai/image-syncer/total.svg)](https://api.github.com/repos/LabNow-ai/image-syncer/releases)
 [![License](https://img.shields.io/github/license/LabNow-ai/image-syncer)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
@@ -30,7 +29,7 @@ You can use [image-sync-action](https://github.com/marketplace/actions/image-syn
 
 ### Install image-syncer
 
-You can download the latest binary release [here](https://github.com/AliyunContainerService/image-syncer/releases)
+You can download the latest binary release [here](https://github.com/LabNow-ai/image-syncer/releases)
 
 ### Compile Manually
 
