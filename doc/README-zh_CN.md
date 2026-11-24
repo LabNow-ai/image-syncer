@@ -12,6 +12,23 @@
 
 [English](../README.md) | 简体中文
 
+## 快速安装
+```bash
+setup_image_syncer() {
+     local ARCH=$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/') \
+  && local VER_SYNCER="$(curl_fsSL "https://api.github.com/repos/LabNow-ai/image-syncer/releases?per_page=50" | grep -Po '(?<="tag_name": ")[^"]+' | head -1 | grep -Po '\d[.\d]+')" \
+  && local URL_SYNCER="https://github.com/LabNow-ai/image-syncer/releases/download/v${VER_SYNCER}/image-syncer-v${VER_SYNCER}-linux-${ARCH}.tar.gz" \
+  && echo "Downloading image-syncer from: ${URL_SYNCER}" \
+  && curl -fsSL -o /tmp/image_syncer.tgz "${URL_SYNCER}" \
+  && mkdir -pv /tmp/image_syncer && tar -zxvf /tmp/image_syncer.tgz -C /tmp/image_syncer \
+  && sudo chmod +x /tmp/image_syncer/image-syncer \
+  && sudo mv /tmp/image_syncer/image-syncer /usr/bin/ \
+  && rm -rf /tmp/image_syncer* ;
+  type image-syncer && echo "@ image-syncer installed to: $(which image-syncer)" || return 1 ;
+}
+setup_image_syncer
+```
+
 ## Features
 
 - 支持多对多镜像仓库同步
